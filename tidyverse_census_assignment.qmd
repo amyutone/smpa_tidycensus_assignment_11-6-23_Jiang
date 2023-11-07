@@ -25,6 +25,7 @@ options(scipen=999)
 # Load the tidyverse.
 library(tidyverse)
 library(tidycensus)
+library(jsonlite)
 ```
 
 ## Setup Census API
@@ -37,7 +38,7 @@ You'll need your Census API Key:
 
 myapikey <- "YOUR API KEY"
 
-census_api_key(myapikey, overwrite=TRUE)
+census_api_key("0565d0e365cabc5e7c1f4eab3edce2107ff278ed", overwrite=TRUE)
 ```
 
 ## Load and view ACS variables
@@ -47,6 +48,17 @@ You'll also need to load the list of American Community Survey variables from th
 **Task** load the variables from the 2021 5-year ACS and save them to a dataframe
 
 ```{r}
+# Correct endpoint for fetching the variable list
+variables_url <- "https://api.census.gov/data/2021/acs/acs5/variables.json"
+
+# Use fromJSON to load the variables into a dataframe
+variables_table <- fromJSON(variables_url)
+
+# The variables are usually in a nested list within the dataframe, so we need to unnest it
+variables_df <- as.data.frame(variables_table$variables)
+
+
+
 
 
 ```
